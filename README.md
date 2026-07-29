@@ -15,7 +15,7 @@ parses informal Indonesian number formats (`"150rb"`, `"20.000"`) into clean int
 **Persistent storage**
 all expenses saved to SQLite, with parameterized queries throughout (SQL-injection safe).
 **REST API**
-full CRUD-style access via FastAPI, with auto-generated interactive docs.
+full CRUD access(GET, POST, PUT, DELETE) via FastAPI, with auto-generated interactive docs.
 
 ## Tech Stack
 
@@ -34,9 +34,9 @@ database.py        # SQLite logic: init_db, save_expense, get_all_expenses
 get_total_by_category
 update_expense
 delete_expense
-├── main.py             # CLI entry point (terminal input)
-├── main_api.py        # FastAPI entry point (HTTP API)
-└── README.md
+main.py             # CLI entry point (terminal input)
+main_api.py        # FastAPI entry point (HTTP API)
+README.md
 
 ## Setup & Run
 
@@ -100,6 +100,20 @@ Returns the total amount spent in a given category.
 {
   "category": "Food",
   "total": 25000
+}
+
+### `PUT /expenses/{id}`
+Updates the category of an existing expense.
+**Example:** `PUT /expenses/1`
+
+**Request body:**
+{
+  "category": "Self Reward"
+}
+
+**Response:**
+{
+  "message": "expense 1 update"
 }
 
 ### `DELETE /expenses/{id}`

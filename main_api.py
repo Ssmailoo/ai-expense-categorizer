@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from database import get_all_expenses, save_expense, get_total_by_category, delete_expense
+from database import get_all_expenses, save_expense, get_total_by_category, delete_expense, update_expense
 from pydantic import BaseModel
 from categorizer import process_expense
 
@@ -16,6 +16,9 @@ class Expense(BaseModel):
 class ExpenseInput(BaseModel):
     description: str
     amount: str
+
+class ExpenseUpdate(BaseModel):
+    category: str
 
 
 @app.get("/expenses")
@@ -69,3 +72,8 @@ def deleted_expense(id: int):
     return {
         "message": f"this expense {id} success deleted"
     }
+
+@app.put("/expenses/{id}")
+def update_expense_endpoint(id: int, data: ExpenseUpdate):
+    update_expense(id, data.category)
+    return {"message": f"expense {id} update"}

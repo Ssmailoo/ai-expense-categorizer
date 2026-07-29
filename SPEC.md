@@ -17,24 +17,30 @@ Contoh nyata:
 Catatan: sistem menerima format amount bebas — akan dinormalisasi/parsing menjadi angka murni sebelum diproses (lihat Edge Case).
 
 ## 3. Output
-```json
+json
 {
   "category": "food",
   "confidence": "high"
 }
-```
 `confidence` bernilai "low" ketika ada dua atau lebih opsi kategori yang sama-sama masuk akal untuk input tersebut.
 
 ## 4. Constraint
-- Kategori valid HANYA: `Food`, `Hiburan`, `Self Reward`, `Self Development`, `Lainnya`
+- Kategori valid HANYA: `Food`, `Entertainment`, `Self Reward`, `Self Development`, `Other`.
 - AI tidak boleh membuat kategori baru di luar daftar ini, kecuali user (Ismail) yang secara eksplisit meminta penambahan kategori
-- Jika AI mengembalikan kategori di luar daftar → sistem otomatis masukkan ke `"Lainnya"`
+- Jika AI mengembalikan kategori di luar daftar, sistem otomatis masukkan ke `"Other"`.
+
+**Definisi tiap kategori** (dikirim ke AI lewat `system_instruction`, wajib disinkronkan kalau berubah):
+- **Food**: segala jenis makanan yang dikonsumsi sehari-hari
+- **Entertainment**: hiburan, rekreasi, hobi, aktivitas yang menyenangkan
+- **Self Reward**: pengeluaran sebagai apresiasi/hadiah untuk diri sendiri setelah pencapaian
+- **Self Development**: kesehatan, kebugaran, olahraga, dan perawatan diri — termasuk suplemen, alat gym, vitamin, dan self-care (skincare, cuci muka, dll). Catatan: suplemen/vitamin masuk sini meski secara teknis "bisa dimakan"
+- **Other**: selain kategori di atas
 
 ## 5. Edge Case
-| Skenario | Penanganan |
-|---|---|
-| `description` benar-benar kosong (tidak ada input) | Tolak, minta user isi ulang |
-| `description` ada tapi tidak informatif (mis. cuma "bayar 50000" tanpa konteks) | Terima, kategorikan sebagai `"Lainnya"`, `confidence: "low"` |
-| `amount` berformat bebas (mis. "20rb", "20.000") | Sistem normalisasi/parsing jadi angka murni |
-| Server/API AI down atau error saat dipanggil | Expense tetap disimpan, tanpa kategori, ditandai untuk diproses ulang nanti |
-| AI kembalikan kategori di luar daftar Constraint | Otomatis dialihkan ke `"Lainnya"` |
+- `description` benar-benar kosong (tidak ada input) | Tolak, minta user isi ulang.
+- `description` ada tapi tidak informatif (mis. cuma "bayar 50000" tanpa konteks) Terima, kategorikan sebagai `"Other"`, `confidence: "low"`.
+- `amount` berformat bebas (mis. "20rb", "20.000") | Sistem normalisasi/parsing jadi angka murni.
+- Server/API AI down atau error saat dipanggil | Expense tetap disimpan, tanpa kategori, ditandai untuk diproses ulang nanti.
+- AI kembalikan kategori di luar daftar Constraint Otomatis dialihkan ke `"Other"`.
+
+

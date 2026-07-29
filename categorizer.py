@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+import json
 
 load_dotenv()
 client = genai.Client()
@@ -55,8 +56,15 @@ def categorizer_expense(description, amount):
             "required": ["category", "confidence"]
         },
     )
-    response = client.models.generate_content(model="gemini-3.1-flash-lite", contents=contents, config=config)
-    return(response.text)
+    response = client.models.generate_content(
+        model="gemini-3.1-flash-lite",
+        contents=contents,
+        config=config
+    )
+    
+    result = json.loads(response.text)
+
+    return result
 
 def process_expense(description: str, amount: str):
     if not description.strip():

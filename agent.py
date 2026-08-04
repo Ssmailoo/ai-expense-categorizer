@@ -114,8 +114,6 @@ def run_agent(user_message: str) -> str:
             tool_name = part.function_call.name
             tool_args = part.function_call.args
 
-            print(f"[DEBUG] Gemini memanggil tool: {tool_name} dengan args: {dict(tool_args)}")
-
             if tool_name == "save_expense":
                 categorization = categorizer_expense(tool_args["description"], tool_args["amount"])
                 tool_args["category"] = categorization["category"]
@@ -135,6 +133,3 @@ def run_agent(user_message: str) -> str:
 
         else:
             return part.text
-        
-print(run_agent("tampilkan semua pengeluaran saya, lalu kasih tahu juga total kategori makanan"))
-print(run_agent("hapus pengeluaran nasi padang yang tadi saya catat"))

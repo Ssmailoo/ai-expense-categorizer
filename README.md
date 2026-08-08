@@ -156,7 +156,11 @@ Categorizes and saves a new expense.
 
 ## Live Demo
 
-<!-- TODO: isi setelah deploy, contoh: 🔗 [Try it live](https://...) -->
+## Live Demo
+
+🔗 [Try it live](https://ai-expense-categorizer-production.up.railway.app/docs)
+
+The database resets on redeploy — feel free to add, list, or delete a few test expenses.
 
 ## Notes
 

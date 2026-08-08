@@ -1,9 +1,11 @@
 from fastapi import FastAPI, HTTPException
-from database import get_all_expenses, save_expense, get_total_by_category, delete_expense, update_expense
+from database import get_all_expenses, save_expense, get_total_by_category, delete_expense, update_expense, init_db
 from pydantic import BaseModel
 from categorizer import process_expense
 
 app = FastAPI()
+
+init_db()
 
 class Expense(BaseModel):
     id: int
